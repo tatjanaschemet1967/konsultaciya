@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета здоровья и питания</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #A8D5BA 0%, #D4EDD7 50%, #E8F5E9 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #7AC143 0%, #5A9933 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+        
+        .intro {
+            background: #F0F8F0;
+            padding: 25px 30px;
+            border-left: 5px solid #7AC143;
+        }
+        
+        .intro p {
+            color: #2C5F2D;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+        
+        .form-content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #E8F5E9;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            color: #7AC143;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-icon {
+            font-size: 26px;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+        }
+        
+        .question-label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        
+        .question-number {
+            color: #7AC143;
+            margin-right: 5px;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #7AC143;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #F9F9F9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .checkbox-item:hover {
+            background: #F0F8F0;
+        }
+        
+        .checkbox-item input[type="checkbox"],
+        .checkbox-item input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .checkbox-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .scale-input {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .scale-input input[type="range"] {
+            flex: 1;
+        }
+        
+        .scale-value {
+            font-weight: bold;
+            color: #7AC143;
+            font-size: 18px;
+            min-width: 30px;
+        }
+        
+        .submit-button {
+            background: linear-gradient(135deg, #7AC143 0%, #5A9933 100%);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 20px;
+        }
+        
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(122, 193, 67, 0.3);
+        }
+        
+        .footer {
+            background: #F0F8F0;
+            padding: 25px 30px;
+            text-align: center;
+            color: #2C5F2D;
+            font-size: 15px;
+        }
+        
+        .required {
+            color: #E74C3C;
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+            
+            .input-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Анкета здоровья и питания</h1>
+            <p>Персональная программа питания и восстановления</p>
+        </div>
+        
+        <div class="intro">
+            <p><strong>Эта короткая анкета поможет лучше понять ваши привычки, самочувствие и цели.</strong></p>
+            <p>Ваши ответы помогут подобрать персональную программу питания и восстановления.</p>
+            <p>На основе ответов мы подготовим для вас аудио-консультацию с рекомендациями.</p>
+        </div>
+        
+        <form class="form-content" id="healthForm">
+            <!-- Раздел 1: Основные данные -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">🧍‍♀️</span>
+                    1. Основные данные
+                </h2>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">1.</span>
+                        Ф.И.О. (можно имя) <span class="required">*</span>
+                    </label>
+                    <input type="text" name="name" required>
+                </div>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">2.</span>
+                        Возраст / Рост / Вес <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input type="number" name="age" placeholder="Возраст (лет)" required>
+                        <input type="number" name="height" placeholder="Рост (см)" required>
+                        <input type="number" name="weight" placeholder="Вес (кг)" required>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">3.</span>
+                        Вес в 18–20 лет
+                    </label>
+                    <input type="number" name="weight_young" placeholder="кг">
+                </div>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">4.</span>
+                        Какой у вас желаемый вес или состояние, к которому вы хотите прийти? <span class="required">*</span>
+                    </label>
+                    <textarea name="goal_weight" required></textarea>
+                </div>
+            </div>
+            
+            <!-- Раздел 2: Питание -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">🍽</span>
+                    2. Питание
+                </h2>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">5.</span>
+                        Сколько раз в день вы обычно питаетесь? <span class="required">*</span>
+                    </label>
+                    <input type="text" name="meals_per_day" required>
+                </div>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">6.</span>
+                        Как бы вы оценили своё питание от 1 до 10 по сбалансированности? <span class="required">*</span>
+                    </label>
+                    <div class="scale-input">
+                        <input type="range" name="nutrition_score" min="1" max="10" value="5" id="nutritionScore" required>
+                        <span class="scale-value" id="nutritionValue">5</span>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">7.</span>
+                        Что обычно едите утром (во сколько просыпаетесь и завтракаете)?
+                    </label>
+                    <textarea name="breakfast"></textarea>
+                </div>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">8.</span>
+                        Примерное меню на день (что едите чаще всего)
+                    </label>
+                    <textarea name="daily_menu"></textarea>
+                </div>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">9.</span>
+                        Что обычно едите или пьёте перед сном, и за сколько до сна?
+                    </label>
+                    <textarea name="before_sleep"></textarea>
+                </div>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">10.</span>
+                        Сколько чистой воды (негазированной) выпиваете в день?
+                    </label>
+                    <input type="text" name="water_intake" placeholder="например: 1-1.5 литра">
+                </div>
+            </div>
+            
+            <!-- Раздел 3: Дополнения и поддержка -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">🌿</span>
+                    3. Дополнения и поддержка
+                </h2>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">11.</span>
+                        Принимаете ли витамины, БАДы, травяные комплексы? Какие и как часто?
+                    </label>
+                    <textarea name="supplements"></textarea>
+                </div>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">12.</span>
+                        Есть ли продукты или напитки, без которых вам трудно обойтись (сладкое, кофе, хлеб и т.д.)?
+                    </label>
+                    <textarea name="addictions"></textarea>
+                </div>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">13.</span>
+                        Наблюдаетесь ли у врачей или есть хронические состояния, которые стоит учитывать?
+                    </label>
+                    <textarea name="health_conditions"></textarea>
+                </div>
+            </div>
+            
+            <!-- Раздел 4: Энергия и активность -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">💪</span>
+                    4. Энергия и активность
+                </h2>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">14.</span>
+                        Какая у вас регулярная физическая активность (йога, прогулки, фитнес и т.д.)?
+                    </label>
+                    <textarea name="physical_activity"></textarea>
+                </div>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">15.</span>
+                        Как вы чувствуете себя утром после сна?
+                    </label>
+                    <div class="radio-group">
+                        <div class="checkbox-item">
+                            <input type="radio" name="morning_feeling" value="бодро" id="feeling1">
+                            <label for="feeling1">Бодро</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" name="morning_feeling" value="устало" id="feeling2">
+                            <label for="feeling2">Устало</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" name="morning_feeling" value="по-разному" id="feeling3">
+                            <label for="feeling3">По-разному</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">16.</span>
+                        Во сколько обычно ложитесь и встаете?
+                    </label>
+                    <div class="input-group">
+                        <input type="text" name="sleep_time" placeholder="Время сна (например: 23:00)">
+                        <input type="text" name="wake_time" placeholder="Время подъёма (например: 7:00)">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Раздел 5: Самочувствие и цели -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">🌞</span>
+                    5. Самочувствие и цели
+                </h2>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">17.</span>
+                        Что сейчас больше всего хотелось бы улучшить?
+                    </label>
+                    <textarea name="improvement_goals" placeholder="сон, энергия, вес, кожа, пищевые привычки, концентрация и т.п."></textarea>
+                </div>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">18.</span>
+                        Насколько вы готовы менять привычки — по шкале от 1 до 10? <span class="required">*</span>
+                    </label>
+                    <div class="scale-input">
+                        <input type="range" name="readiness_score" min="1" max="10" value="5" id="readinessScore" required>
+                        <span class="scale-value" id="readinessValue">5</span>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">19.</span>
+                        Какая у вас главная цель? (можно выбрать несколько) <span class="required">*</span>
+                    </label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="main_goal" value="убрать лишний вес" id="goal1">
+                            <label for="goal1">Убрать лишний вес</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="main_goal" value="повысить энергию" id="goal2">
+                            <label for="goal2">Повысить энергию</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="main_goal" value="наладить питание" id="goal3">
+                            <label for="goal3">Наладить питание</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="main_goal" value="поддерживать результат" id="goal4">
+                            <label for="goal4">Поддерживать результат</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="main_goal" value="улучшить самочувствие и внешний вид" id="goal5">
+                            <label for="goal5">Улучшить самочувствие и внешний вид</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="main_goal" value="другое" id="goal6">
+                            <label for="goal6">Другое</label>
+                        </div>
+                    </div>
+                    <input type="text" name="other_goal" placeholder="Если выбрали 'другое', укажите здесь" style="margin-top: 10px;">
+                </div>
+            </div>
+            
+            <!-- Раздел 6: Практическая часть -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">🎈</span>
+                    6. Практическая часть
+                </h2>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">20.</span>
+                        Какой примерный комфортный бюджет в месяц вы готовы выделять на 2-х разовое питание из сбалансированных продуктов (которые заменят обычную еду и улучшат ваше самочувствие)? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <div class="checkbox-item">
+                            <input type="radio" name="budget" value="до 10 тыс.руб (100 евро)" id="budget1" required>
+                            <label for="budget1">до 10 тыс.руб (100 евро)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" name="budget" value="10–16 тыс. (100-160 евро)" id="budget2">
+                            <label for="budget2">10–16 тыс. (100-160 евро)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" name="budget" value="16–20 тыс. (160-200 евро)" id="budget3">
+                            <label for="budget3">16–20 тыс. (160-200 евро)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" name="budget" value="20 тыс. и более (200 евро и более)" id="budget4">
+                            <label for="budget4">20 тыс. и более (200 евро и более)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Раздел 7: Напоследок -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">💬</span>
+                    7. Напоследок
+                </h2>
+                
+                <div class="question">
+                    <label class="question-label">
+                        <span class="question-number">21.</span>
+                        Есть ли что-то, что вы хотели бы уточнить или добавить — например, ваши пожелания, сомнения или цели на ближайшие месяцы?
+                    </label>
+                    <textarea name="additional_info"></textarea>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-button">Отправить анкету</button>
+        </form>
+        
+        <div class="footer">
+            <p><strong>✨ Спасибо!</strong></p>
+            <p>После того как вы заполните анкету, мы подготовим для вас аудио-консультацию, где подробно обсудим, что именно поможет вам чувствовать себя лучше и прийти к вашим целям.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Обновление значения шкалы питания
+        const nutritionScore = document.getElementById('nutritionScore');
+        const nutritionValue = document.getElementById('nutritionValue');
+        nutritionScore.addEventListener('input', function() {
+            nutritionValue.textContent = this.value;
+        });
+        
+        // Обновление значения шкалы готовности
+        const readinessScore = document.getElementById('readinessScore');
+        const readinessValue = document.getElementById('readinessValue');
+        readinessScore.addEventListener('input', function() {
+            readinessValue.textContent = this.value;
+        });
+        
+        // ВАЖНО: Замените эту ссылку на вашу ссылку Google Apps Script
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxBE6bn4c7gMjgpFBgaCv3YPzO9ex3UpxUyITL5k44sQP0YdVnQT_AtlYd3j-tASGpB/exec';
+        
+        // Обработка отправки формы
+        document.getElementById('healthForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Показать загрузку
+            const submitBtn = this.querySelector('.submit-button');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Отправка...';
+            submitBtn.disabled = true;
+            
+            // Сбор всех данных формы
+            const formData = new FormData(this);
+            const data = {};
+            
+            // Обработка множественных значений чекбоксов
+            const goals = [];
+            formData.getAll('main_goal').forEach(goal => {
+                goals.push(goal);
+            });
+            
+            // Формирование объекта с данными
+            for (let [key, value] of formData.entries()) {
+                if (key !== 'main_goal') {
+                    data[key] = value;
+                }
+            }
+            data['main_goal'] = goals.join(', ');
+            data['timestamp'] = new Date().toISOString();
+            
+            // Отправка данных в Google Sheets
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                // Показать сообщение об успешной отправке
+                alert('✨ Спасибо! Ваша анкета отправлена.\n\nМы подготовим для вас персональную аудио-консультацию в течение 24 часов.');
+                
+                // Очистить форму
+                document.getElementById('healthForm').reset();
+                nutritionValue.textContent = '5';
+                readinessValue.textContent = '5';
+                
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('Произошла ошибка при отправке. Пожалуйста, попробуйте ещё раз или свяжитесь с нами напрямую.');
+                
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>
